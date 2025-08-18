@@ -1,3 +1,8 @@
 # Ignore artifacts:
 build
+dist
 coverage
+webpack.dev.js
+webpack.prod.js
+webpack.common.js
+node_modules
