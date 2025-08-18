@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2022: true,
-    'jest/globals': true,
+    jest: true,
   },
   rules: {
     'no-unused-vars': 'warn',
@@ -10,7 +10,7 @@ module.exports = {
     'no-console': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
-  extends: ['eslint:recommended', 'airbnb-base', 'prettier'],
+  extends: ['airbnb-base', 'prettier'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
