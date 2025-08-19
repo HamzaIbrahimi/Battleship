@@ -30,4 +30,8 @@ export default class Ship {
     isSunk() {
         return this.#hit === this.#length;
     }
+
+    toString() {
+        return `${this.#type} of length ${this.#length}`;
+    }
 }

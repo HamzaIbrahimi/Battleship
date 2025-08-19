@@ -47,3 +47,7 @@ test('Should return true if the ship has been hit as much as its length', () => 
     }
     expect(ship.isSunk()).toBeTruthy();
 });
+
+test('Should return a string representation of the object', () => {
+    expect(ship.toString()).toBe('Carrier of length 5');
+});
