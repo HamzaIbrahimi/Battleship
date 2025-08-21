@@ -68,3 +68,69 @@ test('If the ship length + the coordinate (horizontal) is out of bounds go to op
     a[5][1] = carrier;
     expect(gameBoard.grid()).toEqual(a);
 });
+
+test('Should be able to place multiple ships in the gameboard', () => {
+    const ship = new Ship('ship', 2);
+    const ship2 = new Ship('ship2', 2);
+    const ship3 = new Ship('ship3', 2);
+    gameBoard.placeShip([0, 0], ship, 'horizontal');
+    gameBoard.placeShip([4, 2], ship2, 'vertical');
+    gameBoard.placeShip([0, 9], ship3, 'horizontal');
+    a[0][0] = ship;
+    a[0][1] = ship;
+    a[4][2] = ship2;
+    a[5][2] = ship2;
+    a[0][9] = ship;
+    a[0][8] = ship;
+    expect(gameBoard.grid()).toEqual(a);
+});
+
+test('If a an empty coordinate is hit then change the grid coordinate to 1', () => {
+    gameBoard.receiveAttack([3, 3]);
+    a[3][3] = 1;
+    expect(gameBoard.grid()).toEqual(a);
+});
+
+test('If a ship receives an attack in the grid ensure that the ship itself is hit', () => {
+    const carrier = new Ship('Carrier', 5, 'vertical');
+    gameBoard.placeShip([5, 5], carrier, 'vertical');
+    gameBoard.receiveAttack([5, 5]);
+    expect(carrier.hit()).toBe(2);
+});
+
+test('If a ship is hit as many times as its length the ship to be sunk in the gameboard', () => {
+    const carrier = new Ship('Carrier', 5, 'vertical');
+    gameBoard.placeShip([5, 5], carrier, 'vertical');
+    gameBoard.receiveAttack([5, 5]);
+    gameBoard.receiveAttack([4, 5]);
+    gameBoard.receiveAttack([3, 5]);
+    gameBoard.receiveAttack([2, 5]);
+    gameBoard.receiveAttack([1, 5]);
+    expect(carrier.isSunk()).toBeTruthy();
+});
+
+test('Should to return true if all ships in the gameBoard have been sunk', () => {
+    const ship = new Ship('ship', 2);
+    const ship2 = new Ship('ship2', 2);
+    const ship3 = new Ship('ship3', 2);
+    gameBoard.placeShip([0, 0], ship, 'horizontal');
+    gameBoard.placeShip([3, 3], ship2, 'vertical');
+    gameBoard.placeShip([6, 7], ship3, 'vertical');
+    gameBoard.receiveAttack([0, 0]);
+    gameBoard.receiveAttack([0, 1]);
+    gameBoard.receiveAttack([3, 3]);
+    gameBoard.receiveAttack([4, 3]);
+    gameBoard.receiveAttack([6, 7]);
+    gameBoard.receiveAttack([7, 7]);
+    expect(gameBoard.areAllSunk()).toBeTruthy();
+});
+
+test('Should return false if ships are not sunk', () => {
+    const ship = new Ship('ship', 2);
+    const ship2 = new Ship('ship2', 2);
+    gameBoard.placeShip([0, 0], ship, 'horizontal');
+    gameBoard.placeShip([3, 3], ship2, 'vertical');
+    gameBoard.receiveAttack([0, 0]);
+    gameBoard.receiveAttack([3, 3]);
+    expect(gameBoard.areAllSunk()).toBeFalsy();
+});

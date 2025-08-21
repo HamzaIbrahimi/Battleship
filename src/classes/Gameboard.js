@@ -32,6 +32,24 @@ export default class Gameboard {
         }
     }
 
+    receiveAttack(coordinate) {
+        const [x, y] = [coordinate[0], coordinate[1]];
+        if (this.#emptyPlace(coordinate)) {
+            this.#array[x][y] = 1;
+        } else {
+            const ship = this.#array[x][y];
+            ship.hit();
+        }
+    }
+
+    areAllSunk() {
+        return this.#array.every((array) =>
+            array
+                .filter((x) => x instanceof Ship)
+                .every((ship) => ship.isSunk()),
+        );
+    }
+
     #emptyPlace(coordinate) {
         const [x, y] = [coordinate[0], coordinate[1]];
         if (this.#array[x][y] === 0) {
