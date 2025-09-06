@@ -8,12 +8,63 @@
     --font-root: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
         Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
         sans-serif;
-    --base_font_size: 16px;
+    --base_font_size: 24px;
 }
 
 body {
-    min-height: 100vh;
     font-size: var(--base_font_size);
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
+    margin-left: 50px;
+    padding: 10px;
+    gap: 100px;
+}
+
+.instructions-area {
+    background-color: rgba(172, 166, 169, 0.1);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 10px;
+    width: 450px;
+    font-size: 20px;
+}
+header h1 {
+    font-size: 30px;
+    margin: 10px;
+}
+
+.gamearea {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid red;
+    margin-top: 50px;
+    height: 600px;
+}
+
+.grid-container {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    transform: scaleY(-1);
+}
+
+.container > * {
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgb(65, 174, 210);
 }
