@@ -1,4 +1,4 @@
-import Ship from './Ship';
+import Ship from './Ship.js';
 
 export default class Gameboard {
     #array;
@@ -98,5 +98,17 @@ export default class Gameboard {
                 }
             }
         }
+    }
+
+    findShip(ship) {
+        let res = [];
+        for (let i = 0; i < this.#array.length; i++) {
+            for (let j = 0; j < this.#array.length; j++) {
+                if (this.#array[i][j] === ship) {
+                    res.push([i, j]);
+                }
+            }
+        }
+        return res;
     }
 }

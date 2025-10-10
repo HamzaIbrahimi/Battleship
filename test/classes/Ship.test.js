@@ -1,4 +1,4 @@
-import Ship from '../../src/classes/Ship';
+import Ship from '../../src/classes/Ship.js';
 
 let ship;
 beforeEach(() => {

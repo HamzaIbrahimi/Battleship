@@ -1,4 +1,4 @@
-import Player from '../../src/classes/Player';
+import Player from '../../src/classes/Player.js';
 
 test('A player should have their own gameboard', () => {
     const player = new Player('Tom');

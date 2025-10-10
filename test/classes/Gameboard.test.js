@@ -1,5 +1,5 @@
-import Gameboard from '../../src/classes/Gameboard';
-import Ship from '../../src/classes/Ship';
+import Gameboard from '../../src/classes/Gameboard.js';
+import Ship from '../../src/classes/Ship.js';
 
 let gameBoard;
 let a;
@@ -133,4 +133,18 @@ test('Should return false if ships are not sunk', () => {
     gameBoard.receiveAttack([0, 0]);
     gameBoard.receiveAttack([3, 3]);
     expect(gameBoard.areAllSunk()).toBeFalsy();
+});
+
+test('Should find the array indices of the ship', () => {
+    const ship = new Ship('ship', 5);
+    gameBoard.placeShip([0, 0], ship, 'vertical');
+    let a = gameBoard.findShip(ship);
+    let test = [
+        [0, 0],
+        [1, 0],
+        [2, 0],
+        [3, 0],
+        [4, 0],
+    ];
+    expect(a).toEqual(test);
 });
