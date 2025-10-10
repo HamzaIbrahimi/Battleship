@@ -12,6 +12,13 @@ module.exports = {
             'error',
             { devDependencies: true },
         ],
+        'import/extensions': [
+            'error',
+            'always',
+            {
+                js: 'always',
+            },
+        ],
     },
     extends: ['airbnb-base', 'prettier'],
     parserOptions: {

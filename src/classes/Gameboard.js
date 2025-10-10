@@ -101,9 +101,9 @@ export default class Gameboard {
     }
 
     findShip(ship) {
-        let res = [];
-        for (let i = 0; i < this.#array.length; i++) {
-            for (let j = 0; j < this.#array.length; j++) {
+        const res = [];
+        for (let i = 0; i < this.#array.length; i += 1) {
+            for (let j = 0; j < this.#array.length; j += 1) {
                 if (this.#array[i][j] === ship) {
                     res.push([i, j]);
                 }
