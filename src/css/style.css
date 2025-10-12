@@ -63,10 +63,16 @@ header h1 {
     transform: scaleY(-1);
 }
 
+/* grid cells for the board */
 .container > * {
     width: 40px;
     height: 40px;
     border: 1px solid rgb(65, 174, 210);
+    cursor: pointer;
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .player_one_area,
@@ -74,7 +80,6 @@ header h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid yellow;
 }
 
 .player_one_ship_area,
@@ -103,4 +108,17 @@ header h1 {
 
 .patrolboat {
     grid-column: 1 / span 2;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#start {
+    display: none;
+}
+input {
+    cursor: pointer;
 }
