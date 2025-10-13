@@ -24,7 +24,7 @@ header {
     gap: 100px;
 }
 
-.instructions-area {
+.instructions_area {
     background-color: rgba(172, 166, 169, 0.1);
     display: flex;
     justify-content: start;
