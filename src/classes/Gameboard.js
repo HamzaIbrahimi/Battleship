@@ -105,10 +105,20 @@ export default class Gameboard {
         for (let i = 0; i < this.#array.length; i += 1) {
             for (let j = 0; j < this.#array.length; j += 1) {
                 if (this.#array[i][j] === ship) {
-                    res.push([i, j]);
+                    res.push(`${i}-${j}`);
                 }
             }
         }
         return res;
+    }
+
+    removeShip(ship) {
+        for (let i = 0; i < this.#array.length; i += 1) {
+            for (let j = 0; j < this.#array.length; j += 1) {
+                if (this.#array[i][j] === ship) {
+                    this.#array[i][j] = 0;
+                }
+            }
+        }
     }
 }

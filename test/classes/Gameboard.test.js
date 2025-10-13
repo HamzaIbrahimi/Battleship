@@ -138,13 +138,20 @@ test('Should return false if ships are not sunk', () => {
 test('Should find the array indices of the ship', () => {
     const ship = new Ship('ship', 5);
     gameBoard.placeShip([0, 0], ship, 'vertical');
-    let a = gameBoard.findShip(ship);
-    let test = [
+    const arr = gameBoard.findShip(ship);
+    const test = [
         [0, 0],
         [1, 0],
         [2, 0],
         [3, 0],
         [4, 0],
     ];
-    expect(a).toEqual(test);
+    expect(arr).toEqual(test);
+});
+
+test('Should remove a ship from the array', () => {
+    const ship = new Ship('ship', 5);
+    gameBoard.placeShip([0, 0], ship, 'vertical');
+    gameBoard.removeShip(ship);
+    expect(a).toEqual(gameBoard.grid());
 });
