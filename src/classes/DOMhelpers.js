@@ -39,4 +39,20 @@ export default class DOMhelper {
             </div>`,
         );
     }
+
+    static colorCells(color, children, arr, opacity) {
+        for (let i = 0; i < children.length; i += 1) {
+            if (arr.includes(children[i].className.substring(6))) {
+                children[i].style.opacity = opacity;
+                children[i].style.backgroundColor = color;
+            }
+        }
+    }
+
+    static findGridCellInClassName(str) {
+        return str
+            .substring(6)
+            .split('-')
+            .map((val) => +val);
+    }
 }
