@@ -19,6 +19,10 @@ export default class Ship {
         return this.#length;
     }
 
+    get hits() {
+        return this.#hit;
+    }
+
     hit() {
         if (this.isSunk()) {
             throw new Error(`Ship is sunk: has been hit ${this.#hit} times`);
