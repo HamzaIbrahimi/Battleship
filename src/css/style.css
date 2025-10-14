@@ -116,9 +116,6 @@ button {
     border-radius: 10px;
 }
 
-#start {
-    display: none;
-}
 input {
     cursor: pointer;
 }
