@@ -77,4 +77,22 @@ export default class DOMhelper {
             children[i].style.pointerEvents = control;
         }
     }
+
+    static placeShipsRandomly(ship, gameboard) {
+        const rand = () => Math.floor(Math.random() * 10);
+        const zeroOne = () => Math.floor(Math.random() * 2);
+        const pos = ['horizontal', 'vertical'];
+
+        for (;;) {
+            try {
+                const x = rand();
+                const y = rand();
+                const z = zeroOne();
+                gameboard.placeShip([x, y], ship, pos[z]);
+                break;
+            } catch (e) {
+                gameboard.removeShip(ship);
+            }
+        }
+    }
 }
