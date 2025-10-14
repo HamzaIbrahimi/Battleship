@@ -55,4 +55,26 @@ export default class DOMhelper {
             .split('-')
             .map((val) => +val);
     }
+
+    static disablePointerEvents(children, arr) {
+        for (let i = 0; i < children.length; i += 1) {
+            if (arr.includes(children[i].className.substring(6))) {
+                children[i].style.pointerEvents = 'none';
+            }
+        }
+    }
+
+    static resetFunction(children) {
+        for (let i = 0; i < children.length; i += 1) {
+            children[i].style.pointerEvents = 'auto';
+            children[i].style.backgroundColor = 'white';
+            children[i].style.opacity = 1;
+        }
+    }
+
+    static controlPointerEvents(children, control) {
+        for (let i = 0; i < children.length; i += 1) {
+            children[i].style.pointerEvents = control;
+        }
+    }
 }
