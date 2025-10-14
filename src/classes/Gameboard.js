@@ -121,4 +121,9 @@ export default class Gameboard {
             }
         }
     }
+
+    getElementInLocation(location) {
+        const [x, y] = [location[0], location[1]];
+        return this.#array[x][y];
+    }
 }
