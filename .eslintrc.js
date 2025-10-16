@@ -6,6 +6,7 @@ module.exports = {
     },
     rules: {
         'no-unused-vars': 'warn',
+        'no-param-reassign': 'off',
         quotes: ['error', 'single'],
         'no-console': 'off',
         'import/no-extraneous-dependencies': [
