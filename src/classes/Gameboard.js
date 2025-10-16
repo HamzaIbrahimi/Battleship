@@ -126,4 +126,22 @@ export default class Gameboard {
         const [x, y] = [location[0], location[1]];
         return this.#array[x][y];
     }
+
+    placeShipRandomly(ship) {
+        const rand = () => Math.floor(Math.random() * 10);
+        const zeroOne = () => Math.floor(Math.random() * 2);
+        const pos = ['horizontal', 'vertical'];
+
+        for (;;) {
+            try {
+                const x = rand();
+                const y = rand();
+                const z = zeroOne();
+                this.placeShip([x, y], ship, pos[z]);
+                break;
+            } catch (e) {
+                this.removeShip(ship);
+            }
+        }
+    }
 }

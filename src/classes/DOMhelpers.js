@@ -40,10 +40,9 @@ export default class DOMhelper {
         );
     }
 
-    static colorCells(color, children, arr, opacity) {
+    static colorCells(color, children, arr) {
         for (let i = 0; i < children.length; i += 1) {
             if (arr.includes(children[i].className.substring(6))) {
-                children[i].style.opacity = opacity;
                 children[i].style.backgroundColor = color;
             }
         }
@@ -54,6 +53,11 @@ export default class DOMhelper {
             .substring(6)
             .split('-')
             .map((val) => +val);
+    }
+
+    static findElemFromLocation(location, container) {
+        const [x, y] = location;
+        return document.querySelector(`.${container} ._${x}-${y}`);
     }
 
     static disablePointerEvents(children, arr) {
@@ -68,31 +72,12 @@ export default class DOMhelper {
         for (let i = 0; i < children.length; i += 1) {
             children[i].style.pointerEvents = 'auto';
             children[i].style.backgroundColor = 'white';
-            children[i].style.opacity = 1;
         }
     }
 
     static controlPointerEvents(children, control) {
         for (let i = 0; i < children.length; i += 1) {
             children[i].style.pointerEvents = control;
-        }
-    }
-
-    static placeShipsRandomly(ship, gameboard) {
-        const rand = () => Math.floor(Math.random() * 10);
-        const zeroOne = () => Math.floor(Math.random() * 2);
-        const pos = ['horizontal', 'vertical'];
-
-        for (;;) {
-            try {
-                const x = rand();
-                const y = rand();
-                const z = zeroOne();
-                gameboard.placeShip([x, y], ship, pos[z]);
-                break;
-            } catch (e) {
-                gameboard.removeShip(ship);
-            }
         }
     }
 }
