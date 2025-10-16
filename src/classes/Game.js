@@ -2,18 +2,29 @@ import container from '../Containers.js';
 import DOMhelper from './DOMhelpers.js';
 import Player from './Player.js';
 import Ship from './Ship.js';
+import { availableLocations, removeFromAvailableBoards, chooseRandomCell } from '../utils.js';
 
 export default class Game {
-    constructor() {
-        this.player = new Player('player');
-        this.computer = new Player('computer');
+    constructor(player) {
+        this.player = player;
+        this.computer = new Player('Computer');
+        this.#events();
+        this.availableMoves = availableLocations();
+    }
+
+    #events() {
+        container.formArea.addEventListener('click', (e) => {
+            this.#start(e);
+        });
+        container.computerGrid.addEventListener('click', (e) => {
+            this.#turnPlayer(e);
+        });
     }
 
     #start(e) {
         if (this.player.shipsArray.length === 0 && e.target.matches('#start')) {
             container.instruction.textContent = 'Game has started!';
-            const form = document.querySelector('.positioning');
-            form.remove();
+            document.querySelector('.positioning').remove();
             DOMhelper.displayGrids(container.computerGrid);
             while (this.computer.shipsArray.length !== 0) {
                 const currShip = this.computer.shipsArray.shift();
@@ -22,54 +33,64 @@ export default class Game {
                     currShip.type(),
                     currShip.length(),
                 );
-                DOMhelper.placeShipsRandomly(currShip, this.computer.gameBoard);
-                DOMhelper.controlPointerEvents(
-                    container.playerGrid.children,
-                    'none',
-                );
-                container.playerGrid.style.opacity = 0.5;
-                setTimeout(() => {
-                    container.instruction.textContent = `Its your turn ${this.player.getName()}, click on the opposite grid to attack their ship!`;
-                }, 1500);
+                this.computer.gameBoard.placeShipRandomly(currShip);
             }
+            container.instruction.textContent = `Its your turn ${this.player.getName()}, click on the opposite grid to attack their ship!`;
+            DOMhelper.resetPointerEvents(container.playerGrid.children);
+            DOMhelper.controlPointerEvents(container.playerGrid, 'none', 0.5);
         }
     }
 
     #turnPlayer(e) {
         if (this.player.shipsArray.length === 0 && e.target.matches('.cell')) {
-            const gridLocation = DOMhelper.findGridCellInClassName(
-                e.target.className,
-            );
-            const elem =
-                this.computer.gameBoard.getElementInLocation(gridLocation);
+            const gridLocation = DOMhelper.findGridCellInClassName(e.target.className);
+            const elem = this.computer.gameBoard.getElementInLocation(gridLocation);
+
             if (elem instanceof Ship) {
-                e.target.textContent = 'X';
-                e.target.style.backgroundColor = 'red';
-                container.instruction.textContent = `You attacked the opponent's ${elem.type()}!`;
                 const hit = elem.hits;
-                const shipArea = document.querySelector(
-                    `.player_two_ship_area .${elem.type()} .${elem.type() + hit}`,
+                DOMhelper.cellContainsShip(
+                    e.target,
+                    'player_two_ship_area',
+                    container.instruction,
+                    elem,
+                    hit,
+                    this.computer,
                 );
-                shipArea.style.backgroundColor = 'red';
                 this.computer.gameBoard.receiveAttack(gridLocation);
-                e.target.style.pointerEvents = 'none';
             } else if (elem === 0) {
-                e.target.style.backgroundColor = 'grey';
-                e.target.style.pointerEvents = 'none';
-                e.target.style.opacity = 0.5;
-                container.instruction.textContent = 'Blank shot!';
+                DOMhelper.cellIsEmpty(e.target, container.instruction);
+                DOMhelper.controlPointerEvents(container.computerGrid, 'none', 0.5);
+                DOMhelper.controlPointerEvents(container.playerGrid, 'auto', 1);
                 this.computer.gameBoard.receiveAttack(gridLocation);
-                DOMhelper.controlPointerEvents(
-                    container.computerGrid.children,
-                    'none',
-                );
-                container.computerGrid.style.opacity = 0.5;
-                DOMhelper.controlPointerEvents(
-                    container.playerGrid.children,
-                    'auto',
-                );
-                container.playerGrid.style.opacity = 1;
             }
+            if (elem === 0) {
+                setTimeout(() => this.#computerTurn(), 1000);
+            }
+        }
+    }
+
+    #computerTurn() {
+        const randomLocation = chooseRandomCell(this.availableMoves);
+        removeFromAvailableBoards(randomLocation, this.availableMoves);
+        const htmlElement = DOMhelper.findElemFromLocation(randomLocation, 'player1');
+        const elem = this.player.gameBoard.getElementInLocation(randomLocation);
+        if (elem instanceof Ship) {
+            const hit = elem.hits;
+            DOMhelper.cellContainsShip(
+                htmlElement,
+                'player_one_ship_area',
+                container.instruction,
+                elem,
+                hit,
+                this.player,
+            );
+            this.player.gameBoard.receiveAttack(randomLocation);
+            setTimeout(() => this.#computerTurn(), 1000);
+        } else if (elem === 0) {
+            DOMhelper.cellIsEmpty(htmlElement, container.instruction);
+            DOMhelper.controlPointerEvents(container.playerGrid, 'none', 0.5);
+            DOMhelper.controlPointerEvents(container.computerGrid, 'auto', 1);
+            this.player.gameBoard.receiveAttack(randomLocation);
         }
     }
 }

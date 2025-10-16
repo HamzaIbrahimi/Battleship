@@ -15,10 +15,7 @@ export default class DOMhelper {
         ship.className = shipName;
         container.append(ship);
         for (let i = 0; i < length; i += 1) {
-            ship.insertAdjacentHTML(
-                'beforeend',
-                `<div class="${shipName + i}"></div>`,
-            );
+            ship.insertAdjacentHTML('beforeend', `<div class="${shipName + i}"></div>`);
         }
     }
 
@@ -75,9 +72,37 @@ export default class DOMhelper {
         }
     }
 
-    static controlPointerEvents(children, control) {
+    static controlPointerEvents(container, control, opacity) {
+        container.style.pointerEvents = control;
+        container.style.opacity = opacity;
+    }
+
+    static resetPointerEvents(children) {
         for (let i = 0; i < children.length; i += 1) {
-            children[i].style.pointerEvents = control;
+            children[i].style.pointerEvents = 'none';
         }
+    }
+
+    static cellContainsShip(target, container, instruction, ship, hits, player) {
+        target.textContent = 'X';
+        target.style.backgroundColor = 'red';
+        target.style.pointerEvents = 'none';
+        if (hits + 1 === ship.length()) {
+            instruction.textContent = `${player.getName()}'s ${ship.type()} is ${'destroyed'.toUpperCase()}!`;
+        } else {
+            const who = player.getName() === 'Computer' ? 'You' : 'Computer';
+            instruction.textContent = `${who} attacked the ${player.getName()}'s ${ship.type()}!`;
+        }
+        const shipArea = document.querySelector(
+            `.${container} .${ship.type()} .${ship.type() + hits}`,
+        );
+        shipArea.style.backgroundColor = 'red';
+    }
+
+    static cellIsEmpty(target, instruction) {
+        target.textContent = '⚫';
+        target.style.pointerEvents = 'none';
+        target.style.backgroundColor = 'grey';
+        instruction.textContent = 'Blank Shot!';
     }
 }
