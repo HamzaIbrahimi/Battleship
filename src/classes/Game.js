@@ -57,6 +57,10 @@ export default class Game {
                     this.computer,
                 );
                 this.computer.gameBoard.receiveAttack(gridLocation);
+                if (this.computer.gameBoard.areAllSunk()) {
+                    DOMhelper.win(this.computer, container.instruction);
+                    return;
+                }
             } else if (elem === 0) {
                 DOMhelper.cellIsEmpty(e.target, container.instruction);
                 DOMhelper.controlPointerEvents(container.computerGrid, 'none', 0.5);
@@ -85,6 +89,10 @@ export default class Game {
                 this.player,
             );
             this.player.gameBoard.receiveAttack(randomLocation);
+            if (this.player.gameBoard.areAllSunk()) {
+                DOMhelper.win(this.player, container.instruction);
+                return;
+            }
             setTimeout(() => this.#computerTurn(), 1000);
         } else if (elem === 0) {
             DOMhelper.cellIsEmpty(htmlElement, container.instruction);

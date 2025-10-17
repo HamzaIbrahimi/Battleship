@@ -1,3 +1,7 @@
+import JSConfetti from 'js-confetti';
+import DOMelements from '../Containers.js';
+import Player from './Player.js';
+
 export default class DOMhelper {
     static displayGrids(container) {
         for (let i = 0; i < 10; i += 1) {
@@ -104,5 +108,15 @@ export default class DOMhelper {
         target.style.pointerEvents = 'none';
         target.style.backgroundColor = 'grey';
         instruction.textContent = 'Blank Shot!';
+    }
+
+    static win(player, instruction) {
+        if (player.getName() === 'Player') {
+            instruction.textContent = 'You lose! all your ships are sunk!';
+        } else {
+            instruction.textContent = 'Yay! You Won!';
+            const jsConfetti = new JSConfetti();
+            jsConfetti.addConfetti();
+        }
     }
 }
